@@ -1,19 +1,25 @@
 package com.comet_commit.space_adventure.States;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.comet_commit.space_adventure.SpaceAdventure;
 
-public abstract class State {
+public abstract class State implements InputProcessor {
 
     protected OrthographicCamera cam;
-    protected Vector3 mouse;
+    protected ExtendViewport viewport;
     protected GameStateManager gsm;
 
-    protected State(GameStateManager gsm){
+    protected State(GameStateManager gsm) {
         this.gsm = gsm;
         cam = new OrthographicCamera();
-        mouse = new Vector3();
+        viewport = new ExtendViewport(SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT, cam);
+        Gdx.input.setInputProcessor(this);
     }
 
     protected abstract void handleInput();
@@ -24,4 +30,58 @@ public abstract class State {
 
     public abstract void dispose();
 
+
+    protected Vector3 tp;
+    protected boolean touchDown;
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button != Input.Buttons.LEFT || pointer > 0) return false;
+        cam.unproject(tp.set(screenX, screenY, 0));
+        touchDown = true;
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (button != Input.Buttons.LEFT || pointer > 0) return false;
+        cam.unproject(tp.set(screenX, screenY, 0));
+        touchDown = false;
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (!touchDown) return false;
+        cam.unproject(tp.set(screenX, screenY, 0));
+        return true;
+    }
+
+
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
 }

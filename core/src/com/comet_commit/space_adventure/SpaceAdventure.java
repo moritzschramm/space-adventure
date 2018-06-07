@@ -10,9 +10,13 @@ import com.comet_commit.space_adventure.States.MenuState;
 
 public class SpaceAdventure extends ApplicationAdapter {
 
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 480;
+	public static final String TITLE = "Space Adventure";
+
 	SpriteBatch batch;
 	GameStateManager gsm;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
