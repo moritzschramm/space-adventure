@@ -14,11 +14,15 @@ public abstract class State implements InputProcessor {
     protected OrthographicCamera cam;
     protected ExtendViewport viewport;
     protected GameStateManager gsm;
+    protected Vector3 tp;
+    protected boolean touchDown;
 
     protected State(GameStateManager gsm) {
         this.gsm = gsm;
         cam = new OrthographicCamera();
         viewport = new ExtendViewport(SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT, cam);
+        tp = new Vector3();
+        touchDown = false;
         Gdx.input.setInputProcessor(this);
     }
 
@@ -29,10 +33,6 @@ public abstract class State implements InputProcessor {
     public abstract void render(SpriteBatch sb);
 
     public abstract void dispose();
-
-
-    protected Vector3 tp;
-    protected boolean touchDown;
 
 
     @Override
