@@ -20,6 +20,8 @@ public abstract class State implements InputProcessor {
     protected State(GameStateManager gsm) {
         this.gsm = gsm;
         cam = new OrthographicCamera();
+        cam.setToOrtho(false, SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT);
+
         viewport = new ExtendViewport(SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT, cam);
         tp = new Vector3();
         touchDown = false;

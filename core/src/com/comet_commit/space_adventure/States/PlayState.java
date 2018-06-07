@@ -11,7 +11,6 @@ public class PlayState extends State {
     private Texture background;
 
     public PlayState(GameStateManager gsm) {
-
         super(gsm);
 
         background = new Texture("sky.png");
