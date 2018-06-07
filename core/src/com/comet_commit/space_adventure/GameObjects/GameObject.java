@@ -15,18 +15,21 @@ public abstract class GameObject {
     private Texture texture;
 
 
-    public GameObject(int x, int y, String internalPath) {
+    public GameObject(float x, float y, String internalPath) {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(0, 0, 0);
         this.texture = new Texture(internalPath);
     }
 
-    public GameObject(int x, int y, int vx, int vy, String internalPath) {
+    public GameObject(float x, float y, float vx, float vy, String internalPath) {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);
     }
 
+    public abstract void update(float dt);
+
+    public abstract void dispose();
 
 
     public void setPosition(Vector3 position) {
