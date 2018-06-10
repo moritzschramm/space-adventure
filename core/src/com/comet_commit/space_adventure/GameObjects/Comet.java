@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class Comet extends GameObject {
 
+    public static final int COMET_SIZE = 120;
+
     public Comet(float x, float y) {
         super(x, y, "comet.png");
 
