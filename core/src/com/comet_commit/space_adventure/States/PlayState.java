@@ -2,6 +2,8 @@ package com.comet_commit.space_adventure.States;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
@@ -40,7 +42,13 @@ public class PlayState extends State {
 
         if(super.touchDown) {
 
-            // TODO add tp.x to velocity of rocket
+            if(rocket.getBounds().contains(new Vector2(tp.x, tp.y))) {
+
+                Vector3 pos = new Vector3();
+                pos.x = rocket.getPosition().x;
+                pos.y = tp.y - rocket.getBounds().height/2;
+                rocket.setPosition(pos);
+            }
         }
     }
 
@@ -83,7 +91,7 @@ public class PlayState extends State {
         sb.draw(background2, bgPosition2, 0, SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT);
 
         for(Comet comet : comets){
-            sb.draw(comet.getTexture(), comet.getPosition().x, comet.getPosition().y, 120, 120);
+            sb.draw(comet.getTexture(), comet.getPosition().x, comet.getPosition().y, Comet.COMET_SIZE, Comet.COMET_SIZE);
         }
 
         sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);
