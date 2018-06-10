@@ -1,6 +1,7 @@
 package com.comet_commit.space_adventure.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 
@@ -13,18 +14,22 @@ public abstract class GameObject {
     private Vector3 position;
     private Vector3 velocity;
     private Texture texture;
+    private Rectangle bounds;
 
 
     public GameObject(float x, float y, String internalPath) {
-        this.position = new Vector3(x, y, 0);
-        this.velocity = new Vector3(0, 0, 0);
-        this.texture = new Texture(internalPath);
+        this(x, y, 0, 0, 0, 0, internalPath);
     }
 
     public GameObject(float x, float y, float vx, float vy, String internalPath) {
+        this(x, y, vx, vy, 0, 0, internalPath);
+    }
+
+    public GameObject(float x, float y, float vx, float vy, float width, float height, String internalPath) {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);
+        this.bounds = new Rectangle(x, y, width, height);
     }
 
     public abstract void update(float dt);
@@ -34,6 +39,8 @@ public abstract class GameObject {
 
     public void setPosition(Vector3 position) {
         this.position = position;
+        this.bounds.x = position.x;
+        this.bounds.y = position.y;
     }
 
     public void setVelocity(Vector3 velocity) {
@@ -54,5 +61,9 @@ public abstract class GameObject {
 
     public Texture getTexture() {
         return this.texture;
+    }
+
+    public Rectangle getBounds() {
+        return this.bounds;
     }
 }
