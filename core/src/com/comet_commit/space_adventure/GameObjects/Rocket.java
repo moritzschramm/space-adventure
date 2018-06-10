@@ -4,7 +4,7 @@ package com.comet_commit.space_adventure.GameObjects;
 public class Rocket extends GameObject {
 
     public Rocket(float x, float y) {
-        super(x, y,  "rocket.png");
+        super(x, y, 0, 0, 205, 205,  "rocket.png");
     }
 
     @Override
