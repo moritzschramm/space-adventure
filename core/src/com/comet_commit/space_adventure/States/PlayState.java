@@ -20,6 +20,8 @@ public class PlayState extends State {
     private int bgPosition, bgPosition2;
     private float time, last_comet_insertion, comet_interval;
 
+    private boolean isHolding;
+
     public PlayState(GameStateManager gsm) {
         super(gsm);
 
@@ -32,6 +34,8 @@ public class PlayState extends State {
         last_comet_insertion = 0;
         comet_interval = 1;
 
+        isHolding = false;
+
         comets = new ArrayList<Comet>();
 
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
@@ -42,13 +46,18 @@ public class PlayState extends State {
 
         if(super.touchDown) {
 
-            if(rocket.getBounds().contains(new Vector2(tp.x, tp.y))) {
+            if(rocket.getBounds().contains(new Vector2(tp.x, tp.y)) || isHolding) {
 
                 Vector3 pos = new Vector3();
                 pos.x = rocket.getPosition().x;
                 pos.y = tp.y - rocket.getBounds().height/2;
                 rocket.setPosition(pos);
+                isHolding = true;
             }
+
+        } else {
+
+            isHolding = false;
         }
     }
 
