@@ -45,13 +45,14 @@ public class PlayState extends State {
     protected void handleInput() {
 
         if(super.touchDown) {
-            //TODO rocket.setTwitch(tp.y);
+            //TODO
             if(rocket.getBounds().contains(new Vector2(tp.x, tp.y)) || isHolding) {
 
-                Vector3 pos = new Vector3();
-                pos.x = rocket.getPosition().x;
-                pos.y = tp.y - rocket.getBounds().height/2;
-                rocket.setPosition(pos);
+                rocket.moveTo(tp.y - rocket.getBounds().y/2);
+//                Vector3 pos = new Vector3();
+//                pos.x = rocket.getPosition().x;
+//                pos.y = tp.y - rocket.getBounds().height/2;
+//                rocket.setPosition(pos);
                 isHolding = true;
             }
 
