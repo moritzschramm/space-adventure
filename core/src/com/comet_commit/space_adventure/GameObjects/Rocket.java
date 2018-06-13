@@ -1,13 +1,12 @@
 package com.comet_commit.space_adventure.GameObjects;
 
 
-import com.badlogic.gdx.math.Vector3;
-
 public class Rocket extends GameObject {
 
     private float acceleration, accelerateTo;
     private boolean accelerate;
-    private float MAX_ACC = 10;
+    private float MAX_ACC = 0.1f;
+    private int accDir = 1;
 
     public Rocket(float x, float y) {
         super(x, y, 0, 0, 205, 205,  "rocket.png");
@@ -25,13 +24,13 @@ public class Rocket extends GameObject {
             float t1 = getVelocity().y / MAX_ACC;
             float s1 = getVelocity().y * t1 + MAX_ACC * t1 * t1;
 
-            if(s1 >= accelerateTo) {
+            if(s1 >= Math.abs(accelerateTo - getPosition().y)) {
 
-                acceleration = -MAX_ACC;
+                acceleration = -1 * MAX_ACC * accDir;
 
             } else {
 
-                acceleration = MAX_ACC;
+                acceleration = MAX_ACC * accDir;
             }
 
         } else {
@@ -41,7 +40,10 @@ public class Rocket extends GameObject {
         getVelocity().y += acceleration;
         getPosition().y += getVelocity().y;
 
-        if(getPosition().y == accelerateTo) accelerate = false;
+        if((int)getPosition().y == (int)accelerateTo) {
+            accelerate = false;
+            getVelocity().y = 0;
+        }
     }
 
     public void moveTo(float y) {
@@ -49,6 +51,7 @@ public class Rocket extends GameObject {
         if(y != getPosition().y) {
             accelerateTo = y;
             accelerate = true;
+            accDir = (getPosition().y - y > 0) ? -1 : 1;
         }
     }
 

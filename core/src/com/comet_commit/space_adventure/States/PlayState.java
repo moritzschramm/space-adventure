@@ -45,7 +45,7 @@ public class PlayState extends State {
     protected void handleInput() {
 
         if(super.touchDown) {
-            //TODO
+
             if(rocket.getBounds().contains(new Vector2(tp.x, tp.y)) || isHolding) {
 
                 rocket.moveTo(tp.y - rocket.getBounds().y/2);
