@@ -3,7 +3,6 @@ package com.comet_commit.space_adventure.States;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
@@ -44,17 +43,17 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
 
+        if(isHolding)
+            rocket.setAcc((tp.y - SpaceAdventure.HEIGHT / 2f));
+        else {
+            rocket.setAcc(0);
+            rocket.decreaseVel();
+        }
+
         if(super.touchDown) {
 
-            if(rocket.getBounds().contains(new Vector2(tp.x, tp.y)) || isHolding) {
-
-                rocket.moveTo(tp.y - rocket.getBounds().y/2);
-//                Vector3 pos = new Vector3();
-//                pos.x = rocket.getPosition().x;
-//                pos.y = tp.y - rocket.getBounds().height/2;
-//                rocket.setPosition(pos);
+            if(tp.x < SpaceAdventure.WIDTH / 2)
                 isHolding = true;
-            }
 
         } else {
 

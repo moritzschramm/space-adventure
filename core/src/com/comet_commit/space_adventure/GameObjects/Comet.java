@@ -20,10 +20,9 @@ public class Comet extends GameObject {
 
     @Override
     public void update(float dt) {
-        super.setPosition(new Vector3(super.getPosition().x + super.getVelocity().x,
-                                      super.getPosition().y + super.getVelocity().y,
-                                      0));
 
+        super.getPosition().x += super.getVelocity().x;
+        super.getPosition().y += super.getVelocity().y;
     }
 
     @Override
