@@ -82,6 +82,8 @@ public class PlayState extends State {
         handleCollision(); //TODO implement!
         checkRocketPosition(rocket.getPosition().y, rocket.getTexture().getHeight());
 
+        checkIsDead();
+
 
         if(bgPosition <= -1*SpaceAdventure.WIDTH) bgPosition = SpaceAdventure.WIDTH + bgPosition2;
         if(bgPosition2 <= -1*SpaceAdventure.WIDTH) bgPosition2 = SpaceAdventure.WIDTH + bgPosition;
@@ -140,7 +142,7 @@ public class PlayState extends State {
         for(Comet c : comets){
             System.out.println(c.getBounds().x);
             if(rocket.collision(c.getBounds(), true) != null)
-                gsm.set(new GameOverState(gsm));
+                rocket.setLP(rocket.getLP()-1);
 
         }
 
@@ -148,6 +150,11 @@ public class PlayState extends State {
 
     private void checkRocketPosition(float y, float height){
         if(y + height < 0 || y > SpaceAdventure.HEIGHT)
+            gsm.set(new GameOverState(gsm));
+    }
+
+    private void checkIsDead(){
+        if(rocket.getLP() < 0)
             gsm.set(new GameOverState(gsm));
     }
 

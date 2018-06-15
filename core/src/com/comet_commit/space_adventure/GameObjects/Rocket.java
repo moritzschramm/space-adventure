@@ -13,10 +13,14 @@ public class Rocket extends GameObject {
     private float MAX_ACC = 0.1f;
     private int accDir = 1;
 
+    private int lifePoints;
+
+
     public Rocket(float x, float y) {
         super(x, y, 0, 0, 205, 205,  "rocket.png");
 
         acceleration = 0;
+        lifePoints = 100;
 //        accelerateTo = y; //accelerate to start point
     }
 
@@ -47,5 +51,13 @@ public class Rocket extends GameObject {
     @Override
     public void dispose() {
         super.getTexture().dispose();
+    }
+
+    public int getLP(){
+        return lifePoints;
+    }
+
+    public void setLP(int lifePoints){
+        this.lifePoints = lifePoints;
     }
 }
