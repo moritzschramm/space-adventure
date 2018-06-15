@@ -78,6 +78,8 @@ public class PlayState extends State {
         updateComets(dt);
         addComets();
 
+        handleCollision(); //TODO implement!
+
 
         if(bgPosition <= -1*SpaceAdventure.WIDTH) bgPosition = SpaceAdventure.WIDTH + bgPosition2;
         if(bgPosition2 <= -1*SpaceAdventure.WIDTH) bgPosition2 = SpaceAdventure.WIDTH + bgPosition;
@@ -129,6 +131,12 @@ public class PlayState extends State {
             comets.add(new Comet(150,150));
             last_comet_insertion = time;
         }
+    }
+
+    private void handleCollision(){
+        if(time >= 4.0)
+            gsm.set(new GameOverState(gsm));
+
     }
 
 }
