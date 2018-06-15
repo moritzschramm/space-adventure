@@ -3,13 +3,14 @@ package com.comet_commit.space_adventure.GameObjects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
 /**
  * GameObject is the abstract class above all gameobjects and sets all the shared features and settings.
  * This class should contain as much properties as possible.
  */
-public abstract class GameObject {
+public abstract class GameObject extends Actor {
 
     private Vector3 position;
     private Vector3 velocity;

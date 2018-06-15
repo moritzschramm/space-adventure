@@ -3,6 +3,7 @@ package com.comet_commit.space_adventure.States;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
@@ -24,6 +25,8 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
 
+        stage = new Stage();
+
         bgPosition = 0;
         bgPosition2 = SpaceAdventure.WIDTH;
         background = new Texture("sky.png");
@@ -38,6 +41,9 @@ public class PlayState extends State {
         comets = new ArrayList<Comet>();
 
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
+
+        stage.addActor(rocket);
+
     }
 
     @Override
@@ -63,25 +69,14 @@ public class PlayState extends State {
 
     @Override
     public void update(float dt) {
+        time += dt;
 
         handleInput();
 
         rocket.update(dt);
 
-        for(int i = 0; i < comets.size(); i++){
-            comets.get(i).update(dt);
-
-            if(comets.get(i).getPosition().x < -200) {
-                comets.get(i).dispose();
-                comets.remove(i);
-            }
-        }
-
-        time += dt;
-        if(time >= last_comet_insertion + comet_interval){
-            comets.add(new Comet(150,150));
-            last_comet_insertion = time;
-        }
+        updateComets(dt);
+        addComets();
 
 
         if(bgPosition <= -1*SpaceAdventure.WIDTH) bgPosition = SpaceAdventure.WIDTH + bgPosition2;
@@ -117,4 +112,23 @@ public class PlayState extends State {
             comet.dispose();
 
     }
+
+    private void updateComets(float dt){
+        for(int i = 0; i < comets.size(); i++){
+            comets.get(i).update(dt);
+
+            if(comets.get(i).getPosition().x < -200) {
+                comets.get(i).dispose();
+                comets.remove(i);
+            }
+        }
+    }
+
+    private void addComets(){
+        if(time >= last_comet_insertion + comet_interval){
+            comets.add(new Comet(150,150));
+            last_comet_insertion = time;
+        }
+    }
+
 }

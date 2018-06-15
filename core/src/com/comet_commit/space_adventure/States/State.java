@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
@@ -16,6 +17,7 @@ public abstract class State implements InputProcessor {
     protected GameStateManager gsm;
     protected Vector3 tp;
     protected boolean touchDown;
+    protected Stage stage;
 
     protected State(GameStateManager gsm) {
         this.gsm = gsm;
