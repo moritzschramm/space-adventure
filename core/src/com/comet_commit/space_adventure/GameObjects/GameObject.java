@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 
 /**
@@ -42,6 +43,11 @@ public abstract class GameObject extends Actor {
         this.position = position;
         this.bounds.x = position.x;
         this.bounds.y = position.y;
+    }
+
+    public Actor hit (float x, float y, boolean touchable) { //TODO Test!!!
+        if (touchable && getTouchable() != Touchable.enabled) return null;
+        return bounds.contains(x, y) ? this : null;
     }
 
     public void setVelocity(Vector3 velocity) {
