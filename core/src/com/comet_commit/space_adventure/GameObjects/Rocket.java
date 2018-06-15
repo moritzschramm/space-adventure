@@ -22,18 +22,10 @@ public class Rocket extends GameObject {
 
     @Override
     public void update(float dt) {
-        if(super.getPosition().y < 0) {
-            super.getVelocity().y = 0;
-            super.getPosition().y = 0;
-        }else if(super.getPosition().y > SpaceAdventure.HEIGHT - super.getTexture().getHeight()){
-            super.getVelocity().y = 0;
-            super.getPosition().y = SpaceAdventure.HEIGHT - super.getTexture().getHeight();
-        }else{
+
             super.getVelocity().y += acceleration;
             super.getPosition().y += super.getVelocity().y;
-        }
-
-
+            super.getBounds().y = super.getPosition().y;
 
     }
 

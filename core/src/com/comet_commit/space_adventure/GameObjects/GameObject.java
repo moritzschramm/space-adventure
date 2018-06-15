@@ -31,7 +31,7 @@ public abstract class GameObject extends Actor {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);
-        this.bounds = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
     }
 
     public abstract void update(float dt);
@@ -45,13 +45,21 @@ public abstract class GameObject extends Actor {
         this.bounds.y = position.y;
     }
 
+    public void setPosition(float x, float y, float z){
+        position.x = x;
+        position.y = y;
+        position.z = z;
+        bounds.x = x;
+        bounds.y = y;
+    }
+
     @Override
     public Actor hit (float x, float y, boolean touchable) { //TODO Test!!!
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.contains(x, y) ? this : null;
     }
 
-    public Actor hit (Rectangle rect, boolean touchable){ //TODO Test!!!
+    public Actor collision(Rectangle rect, boolean touchable){ //TODO Test!!!
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.overlaps(rect) ? this : null;
     }

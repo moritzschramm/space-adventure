@@ -23,6 +23,8 @@ public class Comet extends GameObject {
 
         super.getPosition().x += super.getVelocity().x;
         super.getPosition().y += super.getVelocity().y;
+        super.getBounds().x = super.getPosition().x;
+        super.getBounds().y = super.getPosition().y;
     }
 
     @Override
