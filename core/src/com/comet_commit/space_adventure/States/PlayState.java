@@ -2,7 +2,9 @@ package com.comet_commit.space_adventure.States;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
@@ -135,7 +137,12 @@ public class PlayState extends State {
 
     private void handleCollision(){
         if(time >= 4.0)
-            gsm.set(new GameOverState(gsm));
+            gsm.set(new GameOverState(gsm))
+
+//        for (int i = 1; i < stage.getHeight(); i++) {
+//            if(stage.getActors().get(i).hit(rocket.getBounds(), true))
+//                gsm.set(new GameOverState(gsm))
+//        }
 
     }
 

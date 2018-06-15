@@ -45,9 +45,15 @@ public abstract class GameObject extends Actor {
         this.bounds.y = position.y;
     }
 
+    @Override
     public Actor hit (float x, float y, boolean touchable) { //TODO Test!!!
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.contains(x, y) ? this : null;
+    }
+
+    public Actor hit (Rectangle rect, boolean touchable){ //TODO Test!!!
+        if (touchable && getTouchable() != Touchable.enabled) return null;
+        return bounds.overlaps(rect) ? this : null;
     }
 
     public void setVelocity(Vector3 velocity) {
