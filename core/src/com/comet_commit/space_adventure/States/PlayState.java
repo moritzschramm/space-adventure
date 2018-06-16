@@ -140,21 +140,27 @@ public class PlayState extends State {
     private void handleCollision(){
 
         for(Comet c : comets){
-            if(rocket.collision(c.getBounds(), true) != null)
-                rocket.setLP(rocket.getLP()-1);
+            if(rocket.collision(c.getBounds(), true) != null) {
+                rocket.setLP(rocket.getLP() - 1);
+                System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
+            }
 
         }
 
     }
 
     private void checkRocketPosition(float y, float height){
-        if(y + height < 0 || y > SpaceAdventure.HEIGHT)
+        if(y + height < 0 || y > SpaceAdventure.HEIGHT) {
             gsm.set(new GameOverState(gsm));
+            System.out.println("----------\nlost in space\n----------");
+        }
     }
 
     private void checkIsDead(){
-        if(rocket.getLP() < 0)
+        if(rocket.getLP() < 0) {
             gsm.set(new GameOverState(gsm));
+            System.out.println("----------\ncrashed\n----------");
+        }
     }
 
 }
