@@ -140,7 +140,6 @@ public class PlayState extends State {
     private void handleCollision(){
 
         for(Comet c : comets){
-            System.out.println(c.getBounds().x);
             if(rocket.collision(c.getBounds(), true) != null)
                 rocket.setLP(rocket.getLP()-1);
 
