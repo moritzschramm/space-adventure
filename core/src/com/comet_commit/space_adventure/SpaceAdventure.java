@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.comet_commit.space_adventure.States.GameStateManager;
 import com.comet_commit.space_adventure.States.MenuState;
 
+/**
+ * @author Moo_Quadrat (Development-Team)
+ */
 public class SpaceAdventure extends ApplicationAdapter {
 
 	public static final int WIDTH = 1280, HEIGHT = WIDTH / 16 * 9;
