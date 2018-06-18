@@ -20,14 +20,10 @@ public abstract class GameObject extends Actor {
 
 
     public GameObject(float x, float y, String internalPath) {
-        this(x, y, 0, 0, 0, 0, internalPath);
+        this(x, y, 0, 0, internalPath);
     }
 
     public GameObject(float x, float y, float vx, float vy, String internalPath) {
-        this(x, y, vx, vy, 0, 0, internalPath);
-    }
-
-    public GameObject(float x, float y, float vx, float vy, float width, float height, String internalPath) {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);

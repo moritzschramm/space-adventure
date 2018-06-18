@@ -1,9 +1,6 @@
 package com.comet_commit.space_adventure.GameObjects;
 
 
-import com.badlogic.gdx.math.Vector3;
-import com.comet_commit.space_adventure.SpaceAdventure;
-
 public class Rocket extends GameObject {
 
     private static final float SLOWER_ACC = 500;
@@ -17,7 +14,7 @@ public class Rocket extends GameObject {
 
 
     public Rocket(float x, float y) {
-        super(x, y, 0, 0, 205, 205,  "rocket.png");
+        super(x, y, "rocket.png");
 
         acceleration = 0;
         lifePoints = 100;
