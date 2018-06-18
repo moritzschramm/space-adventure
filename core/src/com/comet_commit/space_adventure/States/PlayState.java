@@ -11,12 +11,13 @@ import java.util.ArrayList;
 
 public class PlayState extends State {
 
+    public static final float COMET_INTERVAL = 1;
+
     private Rocket rocket;
     private ArrayList<Comet> comets;
     private Background background;
 
-
-    private float time, last_comet_insertion, comet_interval;
+    private float cometTime, lastCometInsertion;
 
     private boolean isHolding;
 
@@ -25,13 +26,16 @@ public class PlayState extends State {
 
         stage = new Stage();
 
-        time = 0;
-        last_comet_insertion = 0;
-        comet_interval = 1;
+        cometTime = 0;
+        lastCometInsertion = 0;
 
         isHolding = false;
 
         comets = new ArrayList<Comet>();
+
+        for(int i = 0; i < 5; i++) {
+            comets.add(new Comet(-300, 0));
+        }
 
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
 
@@ -64,16 +68,15 @@ public class PlayState extends State {
 
     @Override
     public void update(float dt) {
-        time += dt;
+        cometTime += dt;
 
         handleInput();
 
         rocket.update(dt);
 
         updateComets(dt);
-        addComets();
 
-        handleCollision(); //TODO implement!
+        handleCollision();
         checkRocketPosition(rocket.getPosition().y, rocket.getTexture().getHeight());
 
         checkIsDead();
@@ -108,25 +111,26 @@ public class PlayState extends State {
 
     }
 
-    private void updateComets(float dt){
-        for(int i = 0; i < comets.size(); i++){
-            comets.get(i).update(dt);
+    private void updateComets(float dt) {
 
-            if(comets.get(i).getPosition().x < -200) {
-                comets.get(i).dispose();
-                comets.remove(i);
+        boolean repositionedOne = false;
+
+        for(Comet comet: comets) {
+
+            comet.update(dt);
+
+            if(!repositionedOne &&
+                    comet.getPosition().x < -200 &&
+                    cometTime >= lastCometInsertion + COMET_INTERVAL) {
+                comet.resetPositionAndVelocity();
+                lastCometInsertion = cometTime;
+
+                repositionedOne = true;
             }
         }
     }
 
-    private void addComets(){
-        if(time >= last_comet_insertion + comet_interval){
-            comets.add(new Comet(150,150));
-            last_comet_insertion = time;
-        }
-    }
-
-    private void handleCollision(){
+    private void handleCollision() {
 
         for(Comet c : comets){
             if(rocket.collision(c.getBounds(), true) != null) {
@@ -135,17 +139,16 @@ public class PlayState extends State {
             }
 
         }
-
     }
 
-    private void checkRocketPosition(float y, float height){
+    private void checkRocketPosition(float y, float height) {
         if(y + height < 0 || y > SpaceAdventure.HEIGHT) {
             gsm.set(new GameOverState(gsm, background.getRelativePosition()));
             System.out.println("----------\nlost in space\n----------");
         }
     }
 
-    private void checkIsDead(){
+    private void checkIsDead() {
         if(rocket.getLP() < 0) {
             gsm.set(new GameOverState(gsm, background.getRelativePosition()));
             System.out.println("----------\ncrashed\n----------");
