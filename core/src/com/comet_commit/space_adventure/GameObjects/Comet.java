@@ -11,8 +11,18 @@ public class Comet extends GameObject {
     public static final int MAX_SPEED_Y = 3;
     public static final int MIN_SPEED_Y = -3;
 
+    public Comet() {
+
+        super(0, 0, "comet.png");
+
+        resetPositionAndVelocity();
+    }
+
     public Comet(float x, float y) {
         super(x, y, "comet.png");
+    }
+
+    public void resetPositionAndVelocity() {
 
         Random r = new Random();
 
