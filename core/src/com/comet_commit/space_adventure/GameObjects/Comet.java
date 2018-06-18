@@ -1,21 +1,30 @@
 package com.comet_commit.space_adventure.GameObjects;
 
-import com.badlogic.gdx.math.Vector3;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
 import java.util.Random;
 
 public class Comet extends GameObject {
 
-    public static final int COMET_SIZE = 120;
+    public static final int MAX_SPEED_X = 12;
+    public static final int MIN_SPEED_X = 8;
+    public static final int MAX_SPEED_Y = 3;
+    public static final int MIN_SPEED_Y = -3;
 
     public Comet(float x, float y) {
         super(x, y, "comet.png");
 
         Random r = new Random();
 
-        super.setPosition(new Vector3(SpaceAdventure.WIDTH + 20, r.nextFloat() *(SpaceAdventure.HEIGHT - 20) + 10,0));
-        super.setVelocity(new Vector3(-2*(r.nextFloat()+4),2*r.nextFloat() - 1,0));
+        // position:
+        // x is width + some offset (spawn somewhere where player can't see comet)
+        // y is random value from 10 to height-10
+        super.getPosition().x = SpaceAdventure.WIDTH + 20;
+        super.getPosition().y = r.nextFloat() * (SpaceAdventure.HEIGHT - 20) + 10;
+
+        // velocity:
+        super.getVelocity().x = -1 * ((MAX_SPEED_X - MIN_SPEED_X) * r.nextFloat() + MIN_SPEED_X);
+        super.getVelocity().y = (MAX_SPEED_Y - MIN_SPEED_Y) * r.nextFloat() + MIN_SPEED_Y;
     }
 
     @Override
