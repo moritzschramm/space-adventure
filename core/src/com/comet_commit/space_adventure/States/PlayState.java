@@ -1,37 +1,29 @@
 package com.comet_commit.space_adventure.States;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.*;
-
 public class PlayState extends State {
 
     private Rocket rocket;
     private ArrayList<Comet> comets;
+    private Background background;
 
-    private Texture background;
-    private Texture background2;
-    private int bgPosition, bgPosition2;
+
     private float time, last_comet_insertion, comet_interval;
 
     private boolean isHolding;
 
-    public PlayState(GameStateManager gsm) {
+    public PlayState(GameStateManager gsm, int startBgAt) {
         super(gsm);
 
         stage = new Stage();
-
-        bgPosition = 0;
-        bgPosition2 = SpaceAdventure.WIDTH;
-        background = new Texture("sky.png");
-        background2 = new Texture("sky2.png");
 
         time = 0;
         last_comet_insertion = 0;
@@ -42,6 +34,8 @@ public class PlayState extends State {
         comets = new ArrayList<Comet>();
 
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
+
+        background = new Background(startBgAt);
 
         stage.addActor(rocket);
 
@@ -84,11 +78,7 @@ public class PlayState extends State {
 
         checkIsDead();
 
-
-        if(bgPosition <= -1*SpaceAdventure.WIDTH) bgPosition = SpaceAdventure.WIDTH + bgPosition2;
-        if(bgPosition2 <= -1*SpaceAdventure.WIDTH) bgPosition2 = SpaceAdventure.WIDTH + bgPosition;
-        bgPosition -= round(dt*50);
-        bgPosition2 -= round(dt*50);
+        background.update(dt);
     }
 
     @Override
@@ -97,11 +87,10 @@ public class PlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        sb.draw(background, bgPosition, 0, SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT);
-        sb.draw(background2, bgPosition2, 0, SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT);
+        background.draw(sb);
 
         for(Comet comet : comets){
-            sb.draw(comet.getTexture(), comet.getPosition().x, comet.getPosition().y, Comet.COMET_SIZE, Comet.COMET_SIZE);
+            sb.draw(comet.getTexture(), comet.getPosition().x, comet.getPosition().y, comet.getBounds().width, comet.getBounds().height);
         }
 
         sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);
@@ -151,14 +140,14 @@ public class PlayState extends State {
 
     private void checkRocketPosition(float y, float height){
         if(y + height < 0 || y > SpaceAdventure.HEIGHT) {
-            gsm.set(new GameOverState(gsm));
+            gsm.set(new GameOverState(gsm, background.getRelativePosition()));
             System.out.println("----------\nlost in space\n----------");
         }
     }
 
     private void checkIsDead(){
         if(rocket.getLP() < 0) {
-            gsm.set(new GameOverState(gsm));
+            gsm.set(new GameOverState(gsm, background.getRelativePosition()));
             System.out.println("----------\ncrashed\n----------");
         }
     }
