@@ -6,22 +6,19 @@ import java.util.Random;
 
 public class Comet extends Enemy {
 
-    public static final int MAX_SPEED_X = 12;
-    public static final int MIN_SPEED_X = 8;
-    public static final int MAX_SPEED_Y = 3;
-    public static final int MIN_SPEED_Y = -3;
+    private static final int MAX_SPEED_X = 12;
+    private static final int MIN_SPEED_X = 8;
+    private static final int MAX_SPEED_Y = 3;
+    private static final int MIN_SPEED_Y = -3;
 
 
     public Comet() {
-        super(0, 0, "comet.png", "Comet");
-
+        super(0, 0, "comet.png", "Comet", 10);
         reset();
-        super.setHP(10);
     }
 
     public Comet(float x, float y) {
-        super(x, y, "comet.png", "Comet");
-        super.setHP(10);
+        super(x, y, "comet.png", "Comet", 10);
     }
 
 
@@ -40,17 +37,17 @@ public class Comet extends Enemy {
         super.getVelocity().y = (MAX_SPEED_Y - MIN_SPEED_Y) * r.nextFloat() + MIN_SPEED_Y;
     }
 
-    @Override
-    public void update(float dt) {
+//    @Override
+//    public void update(float dt) {
+//
+//        super.getPosition().x += super.getVelocity().x;
+//        super.getPosition().y += super.getVelocity().y;
+//        super.getBounds().x = super.getPosition().x;
+//        super.getBounds().y = super.getPosition().y;
+//    }
 
-        super.getPosition().x += super.getVelocity().x;
-        super.getPosition().y += super.getVelocity().y;
-        super.getBounds().x = super.getPosition().x;
-        super.getBounds().y = super.getPosition().y;
-    }
-
-    @Override
-    public void dispose() {
-        super.getTexture().dispose();
-    }
+//    @Override
+//    public void dispose() {
+//        super.getTexture().dispose();
+//    }
 }

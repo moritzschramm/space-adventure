@@ -31,10 +31,6 @@ public abstract class GameObject extends Actor {
         super.setName(name);
     }
 
-    public abstract void update(float dt);
-
-    public abstract void dispose();
-
 
     public void setPosition(Vector3 position) {
         this.position = position;
@@ -42,31 +38,23 @@ public abstract class GameObject extends Actor {
         this.bounds.y = position.y;
     }
 
-    public void setPosition(float x, float y, float z){
+    public void setPosition(float x, float y){
         position.x = x;
         position.y = y;
-        position.z = z;
+        position.z = 0;
         bounds.x = x;
         bounds.y = y;
     }
 
-    @Override
-    public Actor hit (float x, float y, boolean touchable) { //TODO Test!!!
+    public Actor collision(float x, float y, boolean touchable) { //TODO Test!!!
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.contains(x, y) ? this : null;
     }
 
     public Actor collision(Rectangle rect, boolean touchable){ //TODO Test!!!
 
-        if (touchable && getTouchable() != Touchable.enabled) {
-            System.out.println("touchable enabled: ");
-            return null;
-        }
+        if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.overlaps(rect) ? this : null;
-    }
-
-    public boolean collision(Rectangle objBounds) {
-        return bounds.overlaps(objBounds);
     }
 
     public void setVelocity(Vector3 velocity) {
@@ -91,6 +79,17 @@ public abstract class GameObject extends Actor {
 
     public Rectangle getBounds() {
         return this.bounds;
+    }
+
+    public void update(float dt){
+        position.x += velocity.x;
+        position.y += velocity.y;
+        bounds.x = position.x;
+        bounds.y = position.y;
+    }
+
+    public void dispose(){
+        texture.dispose();
     }
 
 }

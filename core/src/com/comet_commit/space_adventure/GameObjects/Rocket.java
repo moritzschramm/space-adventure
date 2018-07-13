@@ -21,15 +21,6 @@ public class Rocket extends GameObject {
 //        accelerateTo = y; //accelerate to start point
     }
 
-    @Override
-    public void update(float dt) {
-
-            super.getVelocity().y += acceleration;
-            super.getPosition().y += super.getVelocity().y;
-            super.getBounds().y = super.getPosition().y;
-
-    }
-
     public void setAcc(float y) {
         acceleration = y / SLOWER_ACC;
     }
@@ -45,16 +36,26 @@ public class Rocket extends GameObject {
 
     }
 
-    @Override
-    public void dispose() {
-        super.getTexture().dispose();
+    public void setLP(int lifePoints){
+        this.lifePoints = lifePoints;
     }
 
     public int getLP(){
         return lifePoints;
     }
 
-    public void setLP(int lifePoints){
-        this.lifePoints = lifePoints;
+
+    @Override
+    public void update(float dt) {
+
+        super.getVelocity().y += acceleration;
+        super.getPosition().y += super.getVelocity().y;
+        super.getBounds().y = super.getPosition().y;
+
     }
+
+//    @Override
+//    public void dispose() {
+//        super.getTexture().dispose();
+//    }
 }

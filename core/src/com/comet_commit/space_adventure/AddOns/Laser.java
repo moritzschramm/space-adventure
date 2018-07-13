@@ -24,20 +24,20 @@ public class Laser extends GameObject{
         super.setVelocity(new Vector3(VEL_FACTOR * velX, VEL_FACTOR * velY, 0));
     }
 
-    @Override
-    public void update(float dt) {
-        super.getPosition().x += super.getVelocity().x;
-        super.getPosition().y += super.getVelocity().y;
-        super.getBounds().x = super.getPosition().x;
-        super.getBounds().y = super.getPosition().y;
-    }
-
     public int getIntensity() {
         return intensity;
     }
 
-    @Override
-    public void dispose() {
-        super.getTexture().dispose();
-    }
+//    @Override
+//    public void update(float dt) {
+//        super.getPosition().x += super.getVelocity().x;
+//        super.getPosition().y += super.getVelocity().y;
+//        super.getBounds().x = super.getPosition().x;
+//        super.getBounds().y = super.getPosition().y;
+//    }
+
+//    @Override
+//    public void dispose() {
+//        super.getTexture().dispose();
+//    }
 }

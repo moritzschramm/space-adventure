@@ -7,12 +7,14 @@ public abstract class Enemy extends GameObject {
     private int HP; //Health-Points (10 is low - 10000 is very high e.g. End-Boss Super-Alien!!!)
 
 
-    public Enemy(float x, float y, String internalPath, String name) {
+    public Enemy(float x, float y, String internalPath, String name, int HP) {
         super(x, y, internalPath, name);
+        this.HP = HP;
     }
 
-    public Enemy(float x, float y, float vx, float vy, String internalPath, String name) {
+    public Enemy(float x, float y, float vx, float vy, String internalPath, String name, int HP) {
         super(x, y, vx, vy, internalPath, name);
+        this.HP = HP;
     }
 
 
