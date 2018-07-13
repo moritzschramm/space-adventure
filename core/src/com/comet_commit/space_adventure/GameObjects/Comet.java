@@ -4,25 +4,28 @@ import com.comet_commit.space_adventure.SpaceAdventure;
 
 import java.util.Random;
 
-public class Comet extends GameObject {
+public class Comet extends Enemy {
 
     public static final int MAX_SPEED_X = 12;
     public static final int MIN_SPEED_X = 8;
     public static final int MAX_SPEED_Y = 3;
     public static final int MIN_SPEED_Y = -3;
 
+
     public Comet() {
+        super(0, 0, "comet.png", "Comet");
 
-        super(0, 0, "comet.png");
-
-        resetPositionAndVelocity();
+        reset();
+        super.setHP(10);
     }
 
     public Comet(float x, float y) {
-        super(x, y, "comet.png");
+        super(x, y, "comet.png", "Comet");
+        super.setHP(10);
     }
 
-    public void resetPositionAndVelocity() {
+
+    public void reset() {
 
         Random r = new Random();
 

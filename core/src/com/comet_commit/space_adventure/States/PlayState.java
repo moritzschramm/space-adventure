@@ -2,8 +2,11 @@ package com.comet_commit.space_adventure.States;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.comet_commit.space_adventure.AddOns.Laser;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.GameObjects.Comet;
+import com.comet_commit.space_adventure.GameObjects.Enemy;
+import com.comet_commit.space_adventure.GameObjects.GameObject;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
@@ -14,7 +17,8 @@ public class PlayState extends State {
     public static final float COMET_INTERVAL = 1;
 
     private Rocket rocket;
-    private ArrayList<Comet> comets;
+    private ArrayList<Enemy> enemies;   //Rename from comets to enemies
+    private ArrayList<Laser> lasers;    //set of laser-beams
     private Background background;
 
     private float cometTime, lastCometInsertion;
@@ -31,10 +35,11 @@ public class PlayState extends State {
 
         isHolding = false;
 
-        comets = new ArrayList<Comet>();
+        lasers = new ArrayList<Laser>();
+        enemies = new ArrayList<Enemy>();
 
         for(int i = 0; i < 5; i++) {
-            comets.add(new Comet(-300, 0));
+            enemies.add(new Comet(-200, 0));
         }
 
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
@@ -42,7 +47,6 @@ public class PlayState extends State {
         background = new Background(startBgAt);
 
         stage.addActor(rocket);
-
     }
 
     @Override
@@ -57,12 +61,13 @@ public class PlayState extends State {
 
         if(super.touchDown) {
 
-            if(tp.x < SpaceAdventure.WIDTH / 2)
+            if(tp.x < SpaceAdventure.WIDTH / 4)
                 isHolding = true;
-
+            else
+                lasers.add(new Laser(rocket, tp.x, tp.y));
         } else {
-
             isHolding = false;
+
         }
     }
 
@@ -73,12 +78,13 @@ public class PlayState extends State {
         handleInput();
 
         rocket.update(dt);
-
-        updateComets(dt);
+        updateLasers(dt);
+        updateEnemies(dt);
 
         handleCollision();
-        checkRocketPosition(rocket.getPosition().y, rocket.getTexture().getHeight());
+        handleLaserCollision();
 
+        checkRocketPosition(rocket.getPosition().y, rocket.getTexture().getHeight());
         checkIsDead();
 
         background.update(dt);
@@ -92,8 +98,12 @@ public class PlayState extends State {
 
         background.draw(sb);
 
-        for(Comet comet : comets){
-            sb.draw(comet.getTexture(), comet.getPosition().x, comet.getPosition().y, comet.getBounds().width, comet.getBounds().height);
+        for(Enemy enemy : enemies){
+            sb.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y, enemy.getBounds().width, enemy.getBounds().height);
+        }
+
+        for(Laser laser : lasers) {
+            sb.draw(laser.getTexture(), laser.getPosition().x, laser.getPosition().y);
         }
 
         sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);
@@ -106,38 +116,64 @@ public class PlayState extends State {
     public void dispose() {
         rocket.dispose();
 
-        for(Comet comet : comets)
-            comet.dispose();
+        for(Enemy enemy : enemies)
+            enemy.dispose();
 
+        for(Laser laser : lasers)
+            laser.dispose();
     }
 
-    private void updateComets(float dt) {
+    private void updateLasers(float dt) {
 
-        boolean repositionedOne = false;
+        for(int i = 0; i < lasers.size(); i++){
+            Laser laser = lasers.get(i);
+            laser.update(dt);
 
-        for(Comet comet: comets) {
+            if(laser.getPosition().x > SpaceAdventure.WIDTH + 10 ||
+               laser.getPosition().y > SpaceAdventure.HEIGHT+ 10 ||
+               laser.getPosition().y < 0) {
+                lasers.remove(i);
+                laser.dispose();
+            }
+        }
+    }
 
-            comet.update(dt);
+    private void updateEnemies(float dt) {
 
-            if(!repositionedOne &&
-                    comet.getPosition().x < -200 &&
-                    cometTime >= lastCometInsertion + COMET_INTERVAL) {
-                comet.resetPositionAndVelocity();
+        for(int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+
+            enemy.update(dt);
+
+            if(enemy.getHP() <= 0 || enemy.getPosition().x < -300){
+                enemy.dispose();
+                enemies.remove(i);
+
+            } else if(cometTime >= lastCometInsertion + COMET_INTERVAL){
+                enemies.add(new Comet());
                 lastCometInsertion = cometTime;
-
-                repositionedOne = true;
             }
         }
     }
 
     private void handleCollision() {
-
-        for(Comet c : comets){
-            if(rocket.collision(c.getBounds(), true) != null) {
+        for(Enemy enemy : enemies){
+            if(rocket.collision(enemy.getBounds(), true) != null) {
                 rocket.setLP(rocket.getLP() - 1);
                 System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
             }
 
+        }
+    }
+
+    private void handleLaserCollision() {
+
+        for(Laser laser : lasers) {
+            for (Enemy enemy : enemies) {
+                if (laser.collision(enemy.getBounds())) {
+                    enemy.setHP(enemy.getHP() - laser.getIntensity());
+                }
+            }
         }
     }
 
@@ -149,10 +185,12 @@ public class PlayState extends State {
     }
 
     private void checkIsDead() {
-        if(rocket.getLP() < 0) {
+        if(rocket.getLP() <= 0) {
             gsm.set(new GameOverState(gsm, background.getRelativePosition()));
             System.out.println("----------\ncrashed\n----------");
         }
     }
+
+
 
 }

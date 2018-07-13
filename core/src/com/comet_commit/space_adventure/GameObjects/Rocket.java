@@ -14,7 +14,7 @@ public class Rocket extends GameObject {
 
 
     public Rocket(float x, float y) {
-        super(x, y, "rocket.png");
+        super(x, y, "rocket.png", "Rocket");
 
         acceleration = 0;
         lifePoints = 100;

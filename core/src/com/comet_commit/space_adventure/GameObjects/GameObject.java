@@ -19,15 +19,16 @@ public abstract class GameObject extends Actor {
     private Rectangle bounds;
 
 
-    public GameObject(float x, float y, String internalPath) {
-        this(x, y, 0, 0, internalPath);
+    public GameObject(float x, float y, String internalPath, String name) {
+        this(x, y, 0, 0, internalPath, name);
     }
 
-    public GameObject(float x, float y, float vx, float vy, String internalPath) {
+    public GameObject(float x, float y, float vx, float vy, String internalPath, String name) {
         this.position = new Vector3(x, y, 0);
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);
         this.bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+        super.setName(name);
     }
 
     public abstract void update(float dt);
@@ -56,8 +57,16 @@ public abstract class GameObject extends Actor {
     }
 
     public Actor collision(Rectangle rect, boolean touchable){ //TODO Test!!!
-        if (touchable && getTouchable() != Touchable.enabled) return null;
+
+        if (touchable && getTouchable() != Touchable.enabled) {
+            System.out.println("touchable enabled: ");
+            return null;
+        }
         return bounds.overlaps(rect) ? this : null;
+    }
+
+    public boolean collision(Rectangle objBounds) {
+        return bounds.overlaps(objBounds);
     }
 
     public void setVelocity(Vector3 velocity) {
@@ -83,4 +92,5 @@ public abstract class GameObject extends Actor {
     public Rectangle getBounds() {
         return this.bounds;
     }
+
 }
