@@ -9,7 +9,6 @@ public class Laser extends GameObject{
 
     private final int intensity = 15;
     private final float VEL_FACTOR = 1;
-    //TODO reloadtime!
 
     public Laser(GameObject shouter, float targetX, float targetY){
         super(shouter.getPosition().x, shouter.getPosition().y, "laser.png", "Laser");

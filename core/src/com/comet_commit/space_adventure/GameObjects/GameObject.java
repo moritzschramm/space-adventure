@@ -28,7 +28,7 @@ public abstract class GameObject extends Actor {
         this.velocity = new Vector3(vx, vy, 0);
         this.texture = new Texture(internalPath);
         this.bounds = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
-        super.setName(name);
+        super.setName(name);    //Name should be equal to the class name (Laser, Rocket etc.)
     }
 
 
@@ -46,12 +46,12 @@ public abstract class GameObject extends Actor {
         bounds.y = y;
     }
 
-    public Actor collision(float x, float y, boolean touchable) { //TODO Test!!!
+    public Actor collision(float x, float y, boolean touchable) {
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.contains(x, y) ? this : null;
     }
 
-    public Actor collision(Rectangle rect, boolean touchable){ //TODO Test!!!
+    public Actor collision(Rectangle rect, boolean touchable){
 
         if (touchable && getTouchable() != Touchable.enabled) return null;
         return bounds.overlaps(rect) ? this : null;

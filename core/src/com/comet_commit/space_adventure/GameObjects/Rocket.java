@@ -18,7 +18,6 @@ public class Rocket extends GameObject {
 
         acceleration = 0;
         lifePoints = 100;
-//        accelerateTo = y; //accelerate to start point
     }
 
     public void setAcc(float y) {
