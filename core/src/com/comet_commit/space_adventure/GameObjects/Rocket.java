@@ -50,7 +50,6 @@ public class Rocket extends GameObject {
         super.getVelocity().y += acceleration;
         super.getPosition().y += super.getVelocity().y;
         super.getBounds().y = super.getPosition().y;
-
     }
 
 //    @Override

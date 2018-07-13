@@ -13,12 +13,12 @@ public class Comet extends Enemy {
 
 
     public Comet() {
-        super(0, 0, "comet.png", "Comet", 10);
+        super(0, 0, "comet.png", "Comet", 10, 20);
         reset();
     }
 
     public Comet(float x, float y) {
-        super(x, y, "comet.png", "Comet", 10);
+        super(x, y, "comet.png", "Comet", 10, 20);
     }
 
 

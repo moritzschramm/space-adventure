@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class PlayState extends State {
 
     private static final float COMET_INTERVAL = 1;
-    private static final float LASER_INTERVAL = 1;
+    private static final float LASER_INTERVAL = 0.5f;
 
     private Rocket rocket;
     private ArrayList<Enemy> enemies;   //Rename from comets to enemies
@@ -160,7 +160,7 @@ public class PlayState extends State {
         for(int i = 0; i < enemies.size(); i++){
             Enemy enemy = enemies.get(i);
             if(rocket.collision(enemy.getBounds(), true) != null) {
-                rocket.setLP(rocket.getLP() - 1);
+                rocket.setLP(rocket.getLP() - enemy.getDMG());
                 removeEnemy(i);
                 // delete enemy (and add Animation e.g. bursting comet)
                 System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
@@ -171,10 +171,13 @@ public class PlayState extends State {
 
     private void handleLaserCollision() {
 
-        for(Laser laser : lasers) {
+        for(int i = 0; i < lasers.size(); i++) {
+            Laser laser = lasers.get(i);
             for (Enemy enemy : enemies) {
                 if (laser.collision(enemy.getBounds(), true) != null) {
                     enemy.setHP(enemy.getHP() - laser.getIntensity());
+                    lasers.remove(i);
+                    laser.dispose();
                 }
             }
         }
