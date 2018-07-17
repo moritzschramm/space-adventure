@@ -94,16 +94,16 @@ public class PlayState extends State {
     }
 
     private void handleCollision() {
-//        for(int i = 0; i < enemies.size(); i++){
-//            Enemy enemy = enemies.get(i);
-//            if(rocket.collision(enemy.getBounds(), true) != null) {
-//                rocket.setLP(rocket.getLP() - enemy.getDMG());
-//                removeEnemy(i);
-//                // delete enemy (and add Animation e.g. bursting comet)
-//                System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
-//            }
-//
-//        }
+        for(int i = 0; i < enemies.size(); i++){
+            Enemy enemy = enemies.get(i);
+            if(rocket.collision(enemy.getBounds(), true) != null) {
+                rocket.setLP(rocket.getLP() - enemy.getDMG());
+                removeEnemy(i);
+                // delete enemy (and add Animation e.g. bursting comet)
+                System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
+            }
+
+        }
     }
 
     private void handleLaserCollision() {
