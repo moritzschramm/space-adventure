@@ -3,7 +3,6 @@ package com.comet_commit.space_adventure;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.States.GameStateManager;
@@ -24,7 +23,7 @@ public class SpaceAdventure extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new MenuState(gsm, 0));
+		gsm.push(new MenuState(gsm, new Fonts(), 0));
 	}
 
 	@Override

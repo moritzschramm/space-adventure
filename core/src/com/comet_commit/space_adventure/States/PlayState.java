@@ -1,16 +1,14 @@
 package com.comet_commit.space_adventure.States;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.comet_commit.space_adventure.AddOns.Laser;
+import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Enemy;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
 public class PlayState extends State {
@@ -19,7 +17,7 @@ public class PlayState extends State {
     private ArrayList<Enemy> enemies;   //Rename from comets to enemies
     private ArrayList<Laser> lasers;    //set of laser-beams
     private Background background;
-    private BitmapFont font;
+    private Fonts fonts;
 
     private int score;
     private float time;
@@ -29,8 +27,9 @@ public class PlayState extends State {
     private boolean isHolding;
 
 
-    public PlayState(GameStateManager gsm, int startBgAt) {
+    public PlayState(GameStateManager gsm, Fonts fonts, int startBgAt) {
         super(gsm);
+        this.fonts = fonts;
 
         score = 0;
         time = 0;
@@ -45,8 +44,6 @@ public class PlayState extends State {
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
         background = new Background(startBgAt);
 
-        font = new BitmapFont(Gdx.files.internal("calibril.fnt"),false);
-        font.getData().setScale(1);
     }
 
 
@@ -57,14 +54,14 @@ public class PlayState extends State {
 
     private void checkRocketPosition(float y, float height) {
         if(y + height < 0 || y > SpaceAdventure.HEIGHT) {
-            gsm.set(new GameOverState(gsm, background.getRelativePosition()));
+            gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 1));
             System.out.println("----------\nlost in space\n----------");
         }
     }
 
-    private void checkIsDead() {
+    private void checkCrashed() {
         if(rocket.getLP() <= 0) {
-            gsm.set(new GameOverState(gsm, background.getRelativePosition()));
+            gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 0));
             System.out.println("----------\ncrashed\n----------");
         }
     }
@@ -172,7 +169,7 @@ public class PlayState extends State {
         handleLaserCollision();
 
         checkRocketPosition(rocket.getPosition().y, rocket.getTexture().getHeight());
-        checkIsDead();
+        checkCrashed();
 
         background.update(dt);
     }
@@ -185,18 +182,15 @@ public class PlayState extends State {
 
         background.draw(sb);
 
-        for(Enemy enemy : enemies){
-            sb.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y,
+        for(Enemy enemy : enemies)
+            sb.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y,   //enemies
                     enemy.getBounds().width, enemy.getBounds().height);
-        }
+        for(Laser laser : lasers)
+            sb.draw(laser.getTexture(), laser.getPosition().x, laser.getPosition().y);  //lasers
 
-        for(Laser laser : lasers) {
-            sb.draw(laser.getTexture(), laser.getPosition().x, laser.getPosition().y);
-        }
+        sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);   //rocket
 
-        sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);
-
-        font.draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 60, 30);
+        fonts.getSmall_font().draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
 
         sb.end();
     }
@@ -204,7 +198,6 @@ public class PlayState extends State {
     @Override
     public void dispose() {
         rocket.dispose();
-        font.dispose();
 
         for(Enemy enemy : enemies)
             enemy.dispose();
