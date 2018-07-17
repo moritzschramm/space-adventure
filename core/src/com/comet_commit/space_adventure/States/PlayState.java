@@ -1,5 +1,7 @@
 package com.comet_commit.space_adventure.States;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.comet_commit.space_adventure.AddOns.Laser;
 import com.comet_commit.space_adventure.GameObjects.Background;
@@ -8,6 +10,7 @@ import com.comet_commit.space_adventure.GameObjects.Enemy;
 import com.comet_commit.space_adventure.GameObjects.Rocket;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 public class PlayState extends State {
@@ -16,7 +19,9 @@ public class PlayState extends State {
     private ArrayList<Enemy> enemies;   //Rename from comets to enemies
     private ArrayList<Laser> lasers;    //set of laser-beams
     private Background background;
+    private BitmapFont font;
 
+    private int score;
     private float time;
     private float cometInterval = 1;
     private float laserInterval = 0.5f;
@@ -27,6 +32,7 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm, int startBgAt) {
         super(gsm);
 
+        score = 0;
         time = 0;
         nextComet = cometInterval;
         nextLaser = laserInterval;
@@ -36,10 +42,11 @@ public class PlayState extends State {
         enemies = new ArrayList<Enemy>();
 
         for(int i = 0; i < 5; i++) enemies.add(new Comet(-200, 0));
-
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
-
         background = new Background(startBgAt);
+
+        font = new BitmapFont(Gdx.files.internal("calibril.fnt"),false);
+        font.getData().setScale(1);
     }
 
 
@@ -102,7 +109,6 @@ public class PlayState extends State {
                 // delete enemy (and add Animation e.g. bursting comet)
                 System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
             }
-
         }
     }
 
@@ -115,6 +121,7 @@ public class PlayState extends State {
                     enemy.setHP(enemy.getHP() - laser.getIntensity());
                     lasers.remove(i);
                     laser.dispose();
+                    score += 10;
                     break;
                 }
             }
@@ -151,10 +158,9 @@ public class PlayState extends State {
         time += dt;
         nextComet -= dt;
         nextLaser -= dt;
-        cometInterval = (float) (1 / Math.log(time+1));
+        cometInterval = (float) (1 / (Math.log(time+5)-1));
 
-        if(nextComet <= 0)
-            System.out.println(cometInterval);
+        if(time - (int) time <= dt) score++; //incr. score each sec
 
         handleInput();
 
@@ -190,6 +196,7 @@ public class PlayState extends State {
 
         sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);
 
+        font.draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 60, 30);
 
         sb.end();
     }
@@ -197,6 +204,7 @@ public class PlayState extends State {
     @Override
     public void dispose() {
         rocket.dispose();
+        font.dispose();
 
         for(Enemy enemy : enemies)
             enemy.dispose();
