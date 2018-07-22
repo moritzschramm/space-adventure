@@ -129,7 +129,7 @@ public class PlayState extends State {
     protected void handleInput() {
 
         if(isHolding)
-            rocket.setAcc((tp.y - SpaceAdventure.HEIGHT / 2f));
+            rocket.setAcc((tp.y - rocket.getPosition().y));
         else {
             rocket.setAcc(0);
             rocket.decreaseVel();
