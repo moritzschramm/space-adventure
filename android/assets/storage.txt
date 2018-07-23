@@ -1,0 +1,2 @@
+Money: 0
+highscore: 0

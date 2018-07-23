@@ -20,6 +20,10 @@ public class Fonts {
         return small_font;
     }
 
+    /**
+     * Allows to print good looking Strings to the screen
+     * See more at: https://github.com/libgdx/libgdx/wiki/Gdx-freetype
+     */
     public Fonts(){
         FreeTypeFontGenerator ftfg = new FreeTypeFontGenerator(Gdx.files.internal("FFF_Tusj.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
