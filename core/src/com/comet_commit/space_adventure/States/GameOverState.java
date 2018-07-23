@@ -55,8 +55,14 @@ public class GameOverState extends State {
 
     @Override
     protected void handleInput() {
-        if(super.touchDown)
-            gsm.set(new PlayState(gsm, fonts, background.getRelativePosition()));
+        if(super.touchDown) {
+
+            if(tp.x < SpaceAdventure.WIDTH/2 + 100 && tp.x > SpaceAdventure.WIDTH/2 -100
+                    && tp.y < SpaceAdventure.HEIGHT/2 + 100 && tp.y > SpaceAdventure.HEIGHT/2 - 100) {
+
+                gsm.set(new PlayState(gsm, fonts, background.getRelativePosition()));
+            }
+        }
     }
 
     @Override
@@ -76,6 +82,9 @@ public class GameOverState extends State {
         fonts.getNormal_font().draw(sb, "Score: " + latest_score,
                                     SpaceAdventure.WIDTH / 2 - 160,
                                     SpaceAdventure.HEIGHT / 2 - 80);
+
+        fonts.getNormal_font().draw(sb, "play again >", SpaceAdventure.WIDTH / 2 - 200, SpaceAdventure.HEIGHT/2 + 10);
+
         fonts.getBig_font().draw(sb, gameover_str, SpaceAdventure.WIDTH/ 2  - 280,
                                                    SpaceAdventure.HEIGHT - 150);
 
