@@ -17,7 +17,6 @@ public class PlayState extends State {
     private ArrayList<Enemy> enemies;   //Rename from comets to enemies
     private ArrayList<Laser> lasers;    //set of laser-beams
     private Background background;
-    private Fonts fonts;
 
     private int score;
     private float time;
@@ -28,8 +27,7 @@ public class PlayState extends State {
 
 
     public PlayState(GameStateManager gsm, Fonts fonts, int startBgAt) {
-        super(gsm);
-        this.fonts = fonts;
+        super(gsm, fonts);
 
         score = 0;
         time = 0;
@@ -53,17 +51,13 @@ public class PlayState extends State {
     }
 
     private void checkRocketPosition(float y, float height) {
-        if(y + height < 0 || y > SpaceAdventure.HEIGHT) {
+        if(y + height < 0 || y > SpaceAdventure.HEIGHT)
             gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 1));
-            System.out.println("----------\nlost in space\n----------");
-        }
     }
 
     private void checkCrashed() {
-        if(rocket.getLP() <= 0) {
+        if(rocket.getLP() <= 0)
             gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 0));
-            System.out.println("----------\ncrashed\n----------");
-        }
     }
 
     private void updateLasers(float dt) {
@@ -104,7 +98,6 @@ public class PlayState extends State {
                 rocket.setLP(rocket.getLP() - enemy.getDMG());
                 removeEnemy(i);
                 // delete enemy (and add Animation e.g. bursting comet)
-                System.out.println("Collision\n"+"LifePoints: " + rocket.getLP());
             }
         }
     }

@@ -1,10 +1,7 @@
 package com.comet_commit.space_adventure.States;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.SpaceAdventure;
@@ -13,10 +10,9 @@ public class MenuState extends State {
 
     private Background background;
     private Texture playBtn;
-    private Fonts fonts;
 
     public MenuState(GameStateManager gsm, Fonts fonts, int startBgAt) {
-        super(gsm);
+        super(gsm, fonts);
         this.fonts = fonts;
 
         background = new Background(startBgAt);

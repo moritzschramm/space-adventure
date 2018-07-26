@@ -5,16 +5,16 @@ import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
+import java.io.FileOutputStream;
+
 public class GameOverState extends State {
 
     private Background background;
     private String gameover_str;
     private int latest_score;
-    private Fonts fonts;
 
     public GameOverState(GameStateManager gsm, Fonts fonts, int startBgAt, int score, int go_reason) {
-        super(gsm);
-        this.fonts = fonts;
+        super(gsm, fonts);
 
         background = new Background(startBgAt);
 
@@ -22,6 +22,34 @@ public class GameOverState extends State {
 
         if(go_reason == 0)      gameover_str = "rocket crashed";
         else if(go_reason == 1) gameover_str = "lost in space";
+
+    }
+
+    private int getMoney(){
+        int money = 0;
+
+        //load money from storage.txt
+
+
+
+
+        return money;
+    }
+
+    private void setMoney(int money){
+        //set money in storage.txt
+
+//        String filename = "storage";
+//        String fileContents = "Hello world!";
+//        FileOutputStream outputStream;
+//
+//        try {
+//            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+//            outputStream.write(fileContents.getBytes());
+//            outputStream.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
