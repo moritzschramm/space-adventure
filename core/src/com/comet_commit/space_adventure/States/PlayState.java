@@ -188,7 +188,12 @@ public class PlayState extends State {
         for(Laser laser : lasers)
             sb.draw(laser.getTexture(), laser.getPosition().x, laser.getPosition().y);  //lasers
 
-        sb.draw(rocket.getTexture(), rocket.getPosition().x, rocket.getPosition().y);   //rocket
+        sb.draw(rocket.getTexture(),
+                rocket.getPosition().x, rocket.getPosition().y,
+                rocket.getBounds().width/2, rocket.getBounds().height/2,
+                rocket.getBounds().width, rocket.getBounds().height,
+                1, 1, rocket.getVelocity().y,
+                0, 0, (int)rocket.getBounds().width, (int)rocket.getBounds().height, false, false);
 
         fonts.getSmall_font().draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
 
