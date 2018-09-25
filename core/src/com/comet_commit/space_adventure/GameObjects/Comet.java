@@ -36,18 +36,4 @@ public class Comet extends Enemy {
         super.getVelocity().x = -1 * ((MAX_SPEED_X - MIN_SPEED_X) * r.nextFloat() + MIN_SPEED_X);
         super.getVelocity().y = (MAX_SPEED_Y - MIN_SPEED_Y) * r.nextFloat() + MIN_SPEED_Y;
     }
-
-//    @Override
-//    public void update(float dt) {
-//
-//        super.getPosition().x += super.getVelocity().x;
-//        super.getPosition().y += super.getVelocity().y;
-//        super.getBounds().x = super.getPosition().x;
-//        super.getBounds().y = super.getPosition().y;
-//    }
-
-//    @Override
-//    public void dispose() {
-//        super.getTexture().dispose();
-//    }
 }

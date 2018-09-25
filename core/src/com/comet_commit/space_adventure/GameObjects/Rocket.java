@@ -52,9 +52,4 @@ public class Rocket extends GameObject {
 
         destinationY = y;
     }
-
-//    @Override
-//    public void dispose() {
-//        super.getTexture().dispose();
-//    }
 }

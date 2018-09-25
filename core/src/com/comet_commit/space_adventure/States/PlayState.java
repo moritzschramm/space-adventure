@@ -194,6 +194,8 @@ public class PlayState extends State {
 
         fonts.getSmall_font().draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
 
+        fonts.getUltraSmall_font().draw(sb, lifePointDisplay(rocket.getLP()), 10, 50);
+
         sb.end();
     }
 
@@ -206,5 +208,17 @@ public class PlayState extends State {
 
         for(Laser laser : lasers)
             laser.dispose();
+    }
+
+    public String lifePointDisplay(int lifePoints) {
+
+        String display = "";
+
+        for(int i = 0; i < lifePoints; i++) {
+
+            display += ".";
+        }
+
+        return display;
     }
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Fonts {
 
-    private BitmapFont big_font, normal_font, small_font;
+    private BitmapFont big_font, normal_font, small_font, ultra_small_font;
 
     public BitmapFont getBig_font() {
         return big_font;
@@ -18,6 +18,11 @@ public class Fonts {
 
     public BitmapFont getSmall_font() {
         return small_font;
+    }
+
+    public BitmapFont getUltraSmall_font() {
+
+        return ultra_small_font;
     }
 
     /**
@@ -36,6 +41,9 @@ public class Fonts {
 
         parameter.size = 60;
         normal_font = ftfg.generateFont(parameter);
+
+        parameter.size = 15;
+        ultra_small_font = ftfg.generateFont(parameter);
 
         ftfg.dispose();
     }
