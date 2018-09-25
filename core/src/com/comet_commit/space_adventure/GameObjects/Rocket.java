@@ -3,36 +3,18 @@ package com.comet_commit.space_adventure.GameObjects;
 
 public class Rocket extends GameObject {
 
-    private static final float SLOWER_ACC = 500;
-    private static final double VEL_DECREASE = 0.05;
+    private static final float VELOCITY = 18;
 
-    private float acceleration;
-    private float MAX_ACC = 0.1f;
-    private int accDir = 1;
+    private float destinationY = 0.0f;
 
     private int lifePoints;
 
 
     public Rocket(float x, float y) {
         super(x, y, "rocket.png", "Rocket");
+        destinationY = y;
 
-        acceleration = 0;
-        lifePoints = 100;
-    }
-
-    public void setAcc(float y) {
-        acceleration = y / SLOWER_ACC;
-    }
-
-    public void decreaseVel(){
-        if(super.getVelocity().y < -VEL_DECREASE){
-            super.getVelocity().y += VEL_DECREASE;
-        }else if(super.getVelocity().y > VEL_DECREASE){
-            super.getVelocity().y -= VEL_DECREASE;
-        }else{
-            super.getVelocity().y = 0;
-        }
-
+        lifePoints = 60;
     }
 
     public void setLP(int lifePoints){
@@ -47,9 +29,28 @@ public class Rocket extends GameObject {
     @Override
     public void update(float dt) {
 
-        super.getVelocity().y += acceleration;
+        if(super.getPosition().y == destinationY) {
+
+            super.getVelocity().y = 0;
+
+        } else if(Math.abs(super.getPosition().y - destinationY) <= VELOCITY) {
+
+            super.getVelocity().y = Math.abs(super.getPosition().y - destinationY);
+            if(destinationY < super.getPosition().y) super.getVelocity().y *= -1;
+
+        } else {
+
+            super.getVelocity().y = VELOCITY;
+            if(destinationY < super.getPosition().y) super.getVelocity().y *= -1;
+        }
+
         super.getPosition().y += super.getVelocity().y;
         super.getBounds().y = super.getPosition().y;
+    }
+
+    public void moveTo(float y) {
+
+        destinationY = y;
     }
 
 //    @Override

@@ -8,7 +8,7 @@ import static java.lang.Math.round;
 
 public class Background {
 
-    public static final int SPEED = 50;
+    public static final int SPEED = 300;
 
     private static Texture background;
     private static Texture background2;

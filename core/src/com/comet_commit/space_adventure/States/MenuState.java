@@ -21,7 +21,7 @@ public class MenuState extends State {
 
     @Override
     protected void handleInput() {
-        if(super.touchDown)
+        if(super.touchDown[0])
             gsm.set(new PlayState(gsm, fonts, background.getRelativePosition()));
 
     }

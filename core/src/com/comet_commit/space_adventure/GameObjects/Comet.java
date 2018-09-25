@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class Comet extends Enemy {
 
-    private static final int MAX_SPEED_X = 12;
-    private static final int MIN_SPEED_X = 8;
+    private static final int MAX_SPEED_X = 28;
+    private static final int MIN_SPEED_X = 14;
     private static final int MAX_SPEED_Y = 3;
     private static final int MIN_SPEED_Y = -3;
 

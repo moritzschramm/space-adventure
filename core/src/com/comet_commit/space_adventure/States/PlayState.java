@@ -1,6 +1,7 @@
 package com.comet_commit.space_adventure.States;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.comet_commit.space_adventure.AddOns.Laser;
 import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
@@ -23,7 +24,8 @@ public class PlayState extends State {
     private float cometInterval = 1;
     private float laserInterval = 0.5f;
     private float nextLaser, nextComet;
-    private boolean isHolding;
+    private int movementPointer = -1;
+    private float pointerOffset = 0;
 
 
     public PlayState(GameStateManager gsm, Fonts fonts, int startBgAt) {
@@ -33,7 +35,6 @@ public class PlayState extends State {
         time = 0;
         nextComet = cometInterval;
         nextLaser = laserInterval;
-        isHolding = false;
 
         lasers = new ArrayList<Laser>();
         enemies = new ArrayList<Enemy>();
@@ -121,25 +122,28 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
 
-        if(isHolding)
-            rocket.setAcc((tp.y - rocket.getPosition().y));
-        else {
-            rocket.setAcc(0);
-            rocket.decreaseVel();
-        }
+        if(movementPointer != -1)
+            rocket.moveTo(tp[movementPointer].y - pointerOffset);
 
-        if(super.touchDown) {
+        for(int i = 0; i < 2; i++) {
 
-            if(tp.x < SpaceAdventure.WIDTH / 4)
-                isHolding = true;
+            if(super.touchDown[i]) {
 
-            else if(nextLaser <= 0) {
-                lasers.add(new Laser(rocket, tp.x, tp.y));
-                nextLaser = laserInterval;
+                if(rocket.getBounds().contains(new Vector2(tp[i].x, tp[i].y)) && movementPointer == -1) {
+
+                    movementPointer = i;
+                    pointerOffset = tp[i].y - rocket.getPosition().y;
+
+                } else if(nextLaser <= 0 && movementPointer != i) {
+
+                    lasers.add(new Laser(rocket, tp[i].x, tp[i].y));
+                    nextLaser = laserInterval;
+                }
+
+            } else if (movementPointer == i) {
+
+               movementPointer = -1;
             }
-
-        } else {
-            isHolding = false;
         }
     }
 
@@ -148,7 +152,7 @@ public class PlayState extends State {
         time += dt;
         nextComet -= dt;
         nextLaser -= dt;
-        cometInterval = (float) (1 / (Math.log(time+5)-1));
+        cometInterval = (float) (1 / (Math.log(time+5) + 1));
 
         if(time - (int) time <= dt) score++; //incr. score each sec
 

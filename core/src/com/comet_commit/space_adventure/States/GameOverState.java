@@ -5,8 +5,6 @@ import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
-import java.io.FileOutputStream;
-
 public class GameOverState extends State {
 
     private Background background;
@@ -55,10 +53,10 @@ public class GameOverState extends State {
 
     @Override
     protected void handleInput() {
-        if(super.touchDown) {
+        if(super.touchDown[0]) {
 
-            if(tp.x < SpaceAdventure.WIDTH/2 + 100 && tp.x > SpaceAdventure.WIDTH/2 -100
-                    && tp.y < SpaceAdventure.HEIGHT/2 + 100 && tp.y > SpaceAdventure.HEIGHT/2 - 100) {
+            if(tp[0].x < SpaceAdventure.WIDTH/2 + 100 && tp[0].x > SpaceAdventure.WIDTH/2 -100
+                    && tp[0].y < SpaceAdventure.HEIGHT/2 + 100 && tp[0].y > SpaceAdventure.HEIGHT/2 - 100) {
 
                 gsm.set(new PlayState(gsm, fonts, background.getRelativePosition()));
             }
