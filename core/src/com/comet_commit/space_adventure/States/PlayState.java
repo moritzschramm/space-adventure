@@ -1,5 +1,6 @@
 package com.comet_commit.space_adventure.States;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.comet_commit.space_adventure.AddOns.Laser;
@@ -21,6 +22,8 @@ public class PlayState extends State {
 
     private int score;
     private float time;
+    private int rocketLP = 100;
+    private int maxDisplay = 80;
     private float cometInterval = 1;
     private float laserInterval = 0.5f;
     private float nextLaser, nextComet;
@@ -40,7 +43,7 @@ public class PlayState extends State {
         enemies = new ArrayList<Enemy>();
 
         for(int i = 0; i < 5; i++) enemies.add(new Comet(-200, 0));
-        rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2);
+        rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2, rocketLP);
         background = new Background(startBgAt);
 
     }
@@ -194,7 +197,13 @@ public class PlayState extends State {
 
         fonts.getSmall_font().draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
 
-        fonts.getUltraSmall_font().draw(sb, lifePointDisplay(rocket.getLP()), 10, 50);
+//        fonts.getUltraSmall_font().
+        fonts.getUltraSmall_font().draw(sb, lifePointDisplay(rocket.getLP()), 10, 100);
+
+//        fonts.getUltraSmall_font().setColor(Color.CYAN);
+        fonts.getUltraSmall_font().draw(sb, LaserIntervalDisplay(), 10, 50);
+
+        // On Screen: Next Laser available in:  LaserInterval - nextLaser
 
         sb.end();
     }
@@ -214,11 +223,31 @@ public class PlayState extends State {
 
         String display = "";
 
-        for(int i = 0; i < lifePoints; i++) {
+        int max = (int) ((double) lifePoints / (double) rocketLP * maxDisplay);
 
-            display += ".";
+        for(int i = 0; i < max; i++) {
+
+            display += "|";
         }
 
         return display;
     }
+
+    public String LaserIntervalDisplay(){
+
+        String display = "";
+        int max = maxDisplay;
+
+        if(nextLaser > 0)
+            max = (int) (((laserInterval - nextLaser)) / laserInterval * maxDisplay);
+
+        for(int i = 0; i < max; i++) {
+
+            display += "|";
+        }
+
+        return display;
+    }
+
+
 }

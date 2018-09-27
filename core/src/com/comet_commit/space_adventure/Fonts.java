@@ -1,6 +1,7 @@
 package com.comet_commit.space_adventure;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
@@ -42,7 +43,8 @@ public class Fonts {
         parameter.size = 60;
         normal_font = ftfg.generateFont(parameter);
 
-        parameter.size = 15;
+        parameter.size = 25;
+        parameter.color = Color.CYAN;
         ultra_small_font = ftfg.generateFont(parameter);
 
         ftfg.dispose();

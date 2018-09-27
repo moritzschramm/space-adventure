@@ -10,11 +10,11 @@ public class Rocket extends GameObject {
     private int lifePoints;
 
 
-    public Rocket(float x, float y) {
+    public Rocket(float x, float y, int LP) {
         super(x, y, "rocket.png", "Rocket");
         destinationY = y;
 
-        lifePoints = 60;
+        lifePoints = LP;
     }
 
     public void setLP(int lifePoints){
