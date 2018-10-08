@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.States.GameStateManager;
-import com.comet_commit.space_adventure.States.MenuState;
+import com.comet_commit.space_adventure.States.LoadAppState;
 
 /**
  * @author Moo_Quadrat (Development-Team)
@@ -23,7 +23,7 @@ public class SpaceAdventure extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new MenuState(gsm, new Fonts(), 0));
+		gsm.push(new LoadAppState(gsm, null));
 	}
 
 	@Override

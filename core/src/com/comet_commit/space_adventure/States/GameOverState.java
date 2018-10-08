@@ -23,34 +23,6 @@ public class GameOverState extends State {
 
     }
 
-    private int getMoney(){
-        int money = 0;
-
-        //load money from storage.txt
-
-
-
-
-        return money;
-    }
-
-    private void setMoney(int money){
-        //set money in storage.txt
-
-//        String filename = "storage";
-//        String fileContents = "Hello world!";
-//        FileOutputStream outputStream;
-//
-//        try {
-//            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-//            outputStream.write(fileContents.getBytes());
-//            outputStream.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-    }
-
     @Override
     protected void handleInput() {
         if(super.touchDown[0]) {
@@ -82,6 +54,7 @@ public class GameOverState extends State {
                                     SpaceAdventure.HEIGHT / 2 - 80);
 
         fonts.getNormal_font().draw(sb, "play again >", SpaceAdventure.WIDTH / 2 - 200, SpaceAdventure.HEIGHT/2 + 10);
+            // Instead of drawing the string "Play again", we could draw a reverse-symbol (solves Problem: where to click)
 
         fonts.getBig_font().draw(sb, gameover_str, SpaceAdventure.WIDTH/ 2  - 280,
                                                    SpaceAdventure.HEIGHT - 150);
@@ -93,3 +66,27 @@ public class GameOverState extends State {
     public void dispose() { }
 
 }
+
+
+//    private void setMoney(int money){  //set money in storage.txt
+//
+//        String filename = "storage";
+//        String fileContents = "Hello world!";
+//        FileOutputStream outputStream;
+//
+//        try {
+//            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+//            outputStream.write(fileContents.getBytes());
+//            outputStream.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    private int getMoney(){
+//        int money = 0;
+//
+//        //load money from storage.txt
+//
+//        return money;
+//    }
