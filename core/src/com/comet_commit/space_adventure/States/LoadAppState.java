@@ -62,7 +62,7 @@ public class LoadAppState extends State{
         if(assetManager.update())
             gsm.set(new MenuState(gsm, assetManager, background.getRelativePosition()));
 
-        background.update(dt);
+//        background.update(dt);
     }
 
     @Override
