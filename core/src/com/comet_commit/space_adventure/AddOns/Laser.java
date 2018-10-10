@@ -11,7 +11,9 @@ public class Laser extends GameObject{
     private final float VEL_FACTOR = 2;
 
     public Laser(GameObject shouter, float targetX, float targetY){
-        super(shouter.getPosition().x, shouter.getPosition().y, "laser.png", "Laser");
+        super(shouter.getPosition().x + shouter.getTexture().getWidth() / 2,
+              shouter.getPosition().y + shouter.getTexture().getHeight()/ 2,
+                "laser.png", "Laser");
         this.shouter = shouter;
 
         float   delX = targetX - shouter.getPosition().x,
@@ -27,16 +29,4 @@ public class Laser extends GameObject{
         return intensity;
     }
 
-//    @Override
-//    public void update(float dt) {
-//        super.getPosition().x += super.getVelocity().x;
-//        super.getPosition().y += super.getVelocity().y;
-//        super.getBounds().x = super.getPosition().x;
-//        super.getBounds().y = super.getPosition().y;
-//    }
-
-//    @Override
-//    public void dispose() {
-//        super.getTexture().dispose();
-//    }
 }
