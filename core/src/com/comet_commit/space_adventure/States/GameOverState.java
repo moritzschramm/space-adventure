@@ -1,7 +1,8 @@
 package com.comet_commit.space_adventure.States;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
@@ -11,8 +12,8 @@ public class GameOverState extends State {
     private String gameover_str;
     private int latest_score;
 
-    public GameOverState(GameStateManager gsm, Fonts fonts, int startBgAt, int score, int go_reason) {
-        super(gsm, fonts);
+    public GameOverState(GameStateManager gsm, AssetManager assetManager, int startBgAt, int score, int go_reason) {
+        super(gsm, assetManager);
 
         background = new Background(startBgAt);
 
@@ -30,7 +31,7 @@ public class GameOverState extends State {
             if(tp[0].x < SpaceAdventure.WIDTH/2 + 100 && tp[0].x > SpaceAdventure.WIDTH/2 -100
                     && tp[0].y < SpaceAdventure.HEIGHT/2 + 100 && tp[0].y > SpaceAdventure.HEIGHT/2 - 100) {
 
-                gsm.set(new PlayState(gsm, fonts, background.getRelativePosition()));
+                gsm.set(new PlayState(gsm, assetManager, background.getRelativePosition()));
             }
         }
     }
@@ -49,14 +50,14 @@ public class GameOverState extends State {
 
         background.draw(sb);
 
-        fonts.getNormal_font().draw(sb, "Score: " + latest_score,
+        assetManager.get("normalFont.ttf", BitmapFont.class).draw(sb, "Score: " + latest_score,
                                     SpaceAdventure.WIDTH / 2 - 160,
                                     SpaceAdventure.HEIGHT / 2 - 80);
 
-        fonts.getNormal_font().draw(sb, "play again >", SpaceAdventure.WIDTH / 2 - 200, SpaceAdventure.HEIGHT/2 + 10);
+        assetManager.get("normalFont.ttf", BitmapFont.class).draw(sb, "play again >", SpaceAdventure.WIDTH / 2 - 200, SpaceAdventure.HEIGHT/2 + 10);
             // Instead of drawing the string "Play again", we could draw a reverse-symbol (solves Problem: where to click)
 
-        fonts.getBig_font().draw(sb, gameover_str, SpaceAdventure.WIDTH/ 2  - 280,
+        assetManager.get("bigFont.ttf", BitmapFont.class).draw(sb, gameover_str, SpaceAdventure.WIDTH/ 2  - 280,
                                                    SpaceAdventure.HEIGHT - 150);
 
         sb.end();

@@ -1,10 +1,10 @@
 package com.comet_commit.space_adventure.States;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.comet_commit.space_adventure.AddOns.Laser;
-import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.GameObjects.Background;
 import com.comet_commit.space_adventure.GameObjects.Comet;
 import com.comet_commit.space_adventure.GameObjects.Enemy;
@@ -31,8 +31,8 @@ public class PlayState extends State {
     private float pointerOffset = 0;
 
 
-    public PlayState(GameStateManager gsm, Fonts fonts, int startBgAt) {
-        super(gsm, fonts);
+    public PlayState(GameStateManager gsm, AssetManager assetManager, int startBgAt) {
+        super(gsm, assetManager);
 
         score = 0;
         time = 0;
@@ -56,12 +56,12 @@ public class PlayState extends State {
 
     private void checkRocketPosition(float y, float height) {
         if(y + height < 0 || y > SpaceAdventure.HEIGHT)
-            gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 1));
+            gsm.set(new GameOverState(gsm, assetManager, background.getRelativePosition(), score, 1));
     }
 
     private void checkCrashed() {
         if(rocket.getLP() <= 0)
-            gsm.set(new GameOverState(gsm, fonts, background.getRelativePosition(), score, 0));
+            gsm.set(new GameOverState(gsm, assetManager, background.getRelativePosition(), score, 0));
     }
 
     private void updateLasers(float dt) {
@@ -195,13 +195,13 @@ public class PlayState extends State {
                 1, 1, rocket.getVelocity().y,
                 0, 0, (int)rocket.getBounds().width, (int)rocket.getBounds().height, false, false);
 
-        fonts.getSmall_font().draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
+        assetManager.get("smallFont.ttf", BitmapFont.class).draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
 
 //        fonts.getUltraSmall_font().
-        fonts.getUltraSmall_font().draw(sb, lifePointDisplay(rocket.getLP()), 10, 100);
+        assetManager.get("ultraSmallFont.ttf", BitmapFont.class).draw(sb, lifePointDisplay(rocket.getLP()), 10, 100);
 
 //        fonts.getUltraSmall_font().setColor(Color.CYAN);
-        fonts.getUltraSmall_font().draw(sb, LaserIntervalDisplay(), 10, 50);
+        assetManager.get("ultraSmallFont.ttf", BitmapFont.class).draw(sb, LaserIntervalDisplay(), 10, 50);
 
         // On Screen: Next Laser available in:  LaserInterval - nextLaser
 

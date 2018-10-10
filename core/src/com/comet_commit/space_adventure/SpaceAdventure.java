@@ -23,7 +23,7 @@ public class SpaceAdventure extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		gsm.push(new LoadAppState(gsm, null));
+		gsm.push(new LoadAppState(gsm));
 	}
 
 	@Override

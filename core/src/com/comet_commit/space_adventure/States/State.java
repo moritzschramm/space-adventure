@@ -3,11 +3,11 @@ package com.comet_commit.space_adventure.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.comet_commit.space_adventure.Fonts;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
 public abstract class State implements InputProcessor {
@@ -20,11 +20,11 @@ public abstract class State implements InputProcessor {
     protected Vector3[] tp;
     protected boolean[] touchDown;
 //    protected Stage stage;
-    protected Fonts fonts;
+    protected AssetManager assetManager;
 
-    protected State(GameStateManager gsm, Fonts fonts) {
+    protected State(GameStateManager gsm, AssetManager assetManager) {
         this.gsm = gsm;
-        this.fonts = fonts;
+        this.assetManager = assetManager;
         cam = new OrthographicCamera();
         cam.setToOrtho(false, SpaceAdventure.WIDTH, SpaceAdventure.HEIGHT);
 
