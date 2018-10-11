@@ -50,7 +50,7 @@ public class LoadAppState extends State{
         assetManager.load("ultraSmallFont.ttf", BitmapFont.class, ultraSmallFont);
 
         background = new Background(0);
-        loading_img = new Texture("loading.png");
+        loading_img = new Texture("moon.png");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LoadAppState extends State{
         sb.begin();
 
         background.draw(sb);
-        sb.draw(loading_img, (SpaceAdventure.WIDTH - 200) / 2, (SpaceAdventure.HEIGHT - 100) / 2, 200, 100);
+        sb.draw(loading_img, (SpaceAdventure.WIDTH - 200) / 2, (SpaceAdventure.HEIGHT - 200) / 2, 200, 200);
 
         sb.end();
     }
