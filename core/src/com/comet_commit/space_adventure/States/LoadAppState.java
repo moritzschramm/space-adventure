@@ -18,9 +18,15 @@ public class LoadAppState extends State{
     private AssetManager assetManager;
     private Background background;
     private Texture loading_img;
+    private Texture moon;
+    private int position_y, x_index;
+    private int [] position_x;
+    private float time;
+    private final float interval = 0.5f;
 
     public LoadAppState(GameStateManager gsm) {
         super(gsm, null);
+        time = 0;
 
         assetManager = new AssetManager();
 
@@ -50,7 +56,17 @@ public class LoadAppState extends State{
         assetManager.load("ultraSmallFont.ttf", BitmapFont.class, ultraSmallFont);
 
         background = new Background(0);
-        loading_img = new Texture("moon.png");
+        moon = new Texture("moon.png");
+        loading_img = new Texture("rocket.png");
+
+        position_x = new int[3];
+        position_x[0] = SpaceAdventure.WIDTH / 2 - 90;
+        position_x[1] = SpaceAdventure.WIDTH / 2 - 30;
+        position_x[2] = SpaceAdventure.WIDTH / 2 + 30;
+        x_index = 0;
+
+        position_y = (SpaceAdventure.HEIGHT - 45) / 2;
+
     }
 
     @Override
@@ -62,6 +78,12 @@ public class LoadAppState extends State{
         if(assetManager.update())
             gsm.set(new MenuState(gsm, assetManager, background.getRelativePosition()));
 
+        time += dt;
+        if(time >= interval) {
+            x_index++;
+            time = 0;
+        }
+
 //        background.update(dt);
     }
 
@@ -71,7 +93,8 @@ public class LoadAppState extends State{
         sb.begin();
 
         background.draw(sb);
-        sb.draw(loading_img, (SpaceAdventure.WIDTH - 200) / 2, (SpaceAdventure.HEIGHT - 200) / 2, 200, 200);
+        sb.draw(moon, (SpaceAdventure.WIDTH - 200) / 2, (SpaceAdventure.HEIGHT - 200) / 2, 200, 200);
+        sb.draw(loading_img, position_x[x_index%position_x.length], position_y, 60, 45);
 
         sb.end();
     }
