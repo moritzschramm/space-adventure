@@ -178,7 +178,7 @@ public class PlayState extends State {
         cometInterval = (float) (1 / (Math.log(time+5) + 1));
 
         rocket_rotation = stayInBounds(
-                            smoothChange( rocket_rotation, rocket.getVelocity().y, 0.1f),
+                            smoothChange( rocket_rotation, rocket.getVelocity().y, 0.2f),
                             -45,
                             45);
 //        System.out.println("rotation: " +  rocket_rotation);
