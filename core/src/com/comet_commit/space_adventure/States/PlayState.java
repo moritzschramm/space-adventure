@@ -159,7 +159,15 @@ public class PlayState extends State {
     }
 
     private float smoothChange(float old_val, float new_val, float change){
-        return stayInBounds(new_val, old_val * (1f - change) - 1f, old_val * (1f + change) + 1f);
+
+        if(old_val < 0){
+            return stayInBounds(new_val,
+                    old_val * (1f + change) - 1f,
+                    old_val * (1f - change) + 1f);
+        }
+        return stayInBounds(new_val,
+                        old_val * (1f - change) - 1f,
+                        old_val * (1f + change) + 1f);
     }
 
     @Override
@@ -169,13 +177,11 @@ public class PlayState extends State {
         nextLaser -= dt;
         cometInterval = (float) (1 / (Math.log(time+5) + 1));
 
-
-
         rocket_rotation = stayInBounds(
-                            smoothChange( rocket_rotation, rocket.getVelocity().y, 1f),
+                            smoothChange( rocket_rotation, rocket.getVelocity().y, 0.1f),
                             -45,
                             45);
-        System.out.println("rotation: " +  rocket_rotation);
+//        System.out.println("rotation: " +  rocket_rotation);
 
         if(time - (int) time <= dt) score++; //incr. score each sec
 
