@@ -29,6 +29,7 @@ public class PlayState extends State {
     private float nextLaser, nextComet;
     private int movementPointer = -1;
     private float pointerOffset = 0;
+    private float rocket_rotation;
 
 
     public PlayState(GameStateManager gsm, AssetManager assetManager, int startBgAt) {
@@ -36,6 +37,7 @@ public class PlayState extends State {
 
         score = 0;
         time = 0;
+        rocket_rotation = 0;
         nextComet = cometInterval;
         nextLaser = laserInterval;
 
@@ -150,12 +152,30 @@ public class PlayState extends State {
         }
     }
 
+    private float stayInBounds(float var, float min, float max){
+        if(var > max) return max;
+        if(var < min) return min;
+        return var;
+    }
+
+    private float smoothChange(float old_val, float new_val, float change){
+        return stayInBounds(new_val, old_val * (1f - change) - 1f, old_val * (1f + change) + 1f);
+    }
+
     @Override
     public void update(float dt) {
         time += dt;
         nextComet -= dt;
         nextLaser -= dt;
         cometInterval = (float) (1 / (Math.log(time+5) + 1));
+
+
+
+        rocket_rotation = stayInBounds(
+                            smoothChange( rocket_rotation, rocket.getVelocity().y, 1f),
+                            -45,
+                            45);
+        System.out.println("rotation: " +  rocket_rotation);
 
         if(time - (int) time <= dt) score++; //incr. score each sec
 
@@ -192,7 +212,7 @@ public class PlayState extends State {
                 rocket.getPosition().x, rocket.getPosition().y,
                 rocket.getBounds().width/2, rocket.getBounds().height/2,
                 rocket.getBounds().width, rocket.getBounds().height,
-                1, 1, rocket.getVelocity().y,
+                1, 1, rocket_rotation,
                 0, 0, (int)rocket.getBounds().width, (int)rocket.getBounds().height, false, false);
 
         assetManager.get("smallFont.ttf", BitmapFont.class).draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
