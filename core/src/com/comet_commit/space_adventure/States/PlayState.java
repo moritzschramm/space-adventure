@@ -24,7 +24,7 @@ public class PlayState extends State {
     private float time;
     private int rocketLP = 100;
     private int maxDisplay = 80;
-    private float cometInterval = 1;
+    private float cometInterval = 1.2f;
     private float laserInterval = 0.5f;
     private float nextLaser, nextComet;
     private int movementPointer = -1;
@@ -89,7 +89,7 @@ public class PlayState extends State {
             if(enemy.getHP() <= 0 || enemy.getPosition().x < -300) removeEnemy(i);
 
             else if(nextComet <= 0){
-                enemies.add(new Comet());
+                enemies.add(new Comet(rocket.getPosition().y));
                 nextComet = cometInterval;
             }
         }
