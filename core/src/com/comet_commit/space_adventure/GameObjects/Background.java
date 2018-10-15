@@ -17,15 +17,15 @@ public class Background {
 
     public Background(int startAt) {
 
-        bgPosition = startAt;
-        if(startAt <= 0) bgPosition2 = SpaceAdventure.WIDTH + startAt;
-        else bgPosition2 = startAt - SpaceAdventure.WIDTH;
-
-        if(background == null) background = new Texture("background.png");
-        if(background2 == null) background2 = new Texture("background.png");
+        if(background == null) background = new Texture("background1.png");
+        if(background2== null) background2= new Texture("background2.png");
 
         relHeight= SpaceAdventure.HEIGHT;
         relWidth = (int) (background.getWidth() * (double) SpaceAdventure.HEIGHT / (double) background.getHeight());
+
+        bgPosition = startAt;
+        if(startAt <= 0) bgPosition2 = relWidth + startAt;
+        else bgPosition2 = startAt - relWidth;
     }
 
     public int getRelativePosition() {
