@@ -84,7 +84,6 @@ public class LoadAppState extends State{
             time = 0;
         }
 
-//        background.update(dt);
     }
 
     @Override

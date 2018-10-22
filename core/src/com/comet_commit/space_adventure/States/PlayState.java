@@ -5,31 +5,30 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.comet_commit.space_adventure.AddOns.Laser;
-import com.comet_commit.space_adventure.GameObjects.Background;
-import com.comet_commit.space_adventure.GameObjects.Comet;
-import com.comet_commit.space_adventure.GameObjects.Enemy;
-import com.comet_commit.space_adventure.GameObjects.Rocket;
+import com.comet_commit.space_adventure.GameObjects.*;
 import com.comet_commit.space_adventure.SpaceAdventure;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayState extends State {
 
     private Rocket rocket;
     private ArrayList<Enemy> enemies;   //Rename from comets to enemies
     private ArrayList<Laser> lasers;    //set of laser-beams
+    private ArrayList<Healthpack> healthpacks;
     private Background background;
 
     private int score;
     private float time;
     private int rocketLP = 100;
     private int maxDisplay = 80;
-    private float cometInterval = 1.2f;
+    private float cometInterval = 2.2f;
     private float laserInterval = 0.5f;
     private float nextLaser, nextComet;
     private int movementPointer = -1;
     private float pointerOffset = 0;
-    private float rocket_rotation;
+    private Random r;
 
 
     public PlayState(GameStateManager gsm, AssetManager assetManager, int startBgAt) {
@@ -37,17 +36,18 @@ public class PlayState extends State {
 
         score = 0;
         time = 0;
-        rocket_rotation = 0;
         nextComet = cometInterval;
         nextLaser = laserInterval;
 
         lasers = new ArrayList<Laser>();
         enemies = new ArrayList<Enemy>();
+        healthpacks = new ArrayList<Healthpack>();
 
         for(int i = 0; i < 5; i++) enemies.add(new Comet(-200, 0));
         rocket = new Rocket(SpaceAdventure.WIDTH / 20f, SpaceAdventure.HEIGHT / 2, rocketLP);
         background = new Background(startBgAt);
 
+        r = new Random();
     }
 
 
@@ -88,7 +88,15 @@ public class PlayState extends State {
 
             enemy.update(dt);
 
-            if(enemy.getHP() <= 0 || enemy.getPosition().x < -300) removeEnemy(i);
+            if (enemy.getHP() <= 0 || enemy.getPosition().x < -300)
+                if (enemy.getName().equals("Comet") && enemy.getHP() <= 0) { //TODO
+                    int k = r.nextInt(5);
+                    if(k <= 1)
+                        healthpacks.add(new Healthpack( enemy.getPosition().x, enemy.getPosition().y,
+                                                        enemy.getVelocity().x, enemy.getVelocity().y));
+                    removeEnemy(i);
+                }else
+                    removeEnemy(i);
 
             else if(nextComet <= 0){
                 enemies.add(new Comet(rocket.getPosition().y));
@@ -97,13 +105,29 @@ public class PlayState extends State {
         }
     }
 
+    private void updateHealthpacks(float dt) {
+        for(Healthpack hp : healthpacks){
+            hp.update(dt);
+        }
+    }
+
     private void handleCollision() {
-        for(int i = 0; i < enemies.size(); i++){
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
-            if(rocket.collision(enemy.getBounds(), true) != null) {
+            if (rocket.collision(enemy.getBounds(), true) != null) {
                 rocket.setLP(rocket.getLP() - enemy.getDMG());
                 removeEnemy(i);
-                // delete enemy (and add Animation e.g. bursting comet)
+                // delete enemy (and add Animation e.g. bursting comet) TODO
+            }
+        }
+        for (int i = 0; i < healthpacks.size(); i++) {
+
+            Healthpack hp = healthpacks.get(i);
+
+            if(rocket.collision(hp.getBounds(), true) != null) {
+
+                healthpacks.remove(i);
+                rocket.setLP(rocket.getLP() + Healthpack.HP);
             }
         }
     }
@@ -152,36 +176,12 @@ public class PlayState extends State {
         }
     }
 
-    private float stayInBounds(float var, float min, float max){
-        if(var > max) return max;
-        if(var < min) return min;
-        return var;
-    }
-
-    private float smoothChange(float old_val, float new_val, float change){
-
-        if(old_val < 0){
-            return stayInBounds(new_val,
-                    old_val * (1f + change) - 1f,
-                    old_val * (1f - change) + 1f);
-        }
-        return stayInBounds(new_val,
-                        old_val * (1f - change) - 1f,
-                        old_val * (1f + change) + 1f);
-    }
-
     @Override
     public void update(float dt) {
         time += dt;
         nextComet -= dt;
         nextLaser -= dt;
         cometInterval = (float) (1 / (Math.log(time+5) + 1));
-
-        rocket_rotation = stayInBounds(
-                            smoothChange( rocket_rotation, rocket.getVelocity().y, 0.2f),
-                            -45,
-                            45);
-//        System.out.println("rotation: " +  rocket_rotation);
 
         if(time - (int) time <= dt) score++; //incr. score each sec
 
@@ -190,6 +190,7 @@ public class PlayState extends State {
         rocket.update(dt);
         updateLasers(dt);
         updateEnemies(dt);
+        updateHealthpacks(dt);
 
         handleCollision();
         handleLaserCollision();
@@ -213,12 +214,15 @@ public class PlayState extends State {
                     enemy.getBounds().width, enemy.getBounds().height);
         for(Laser laser : lasers)
             sb.draw(laser.getTexture(), laser.getPosition().x, laser.getPosition().y);  //lasers
+        for(Healthpack hp : healthpacks){
+            sb.draw(hp.getTexture(), hp.getPosition().x, hp.getPosition().y);           //healthpacks
+        }
 
         sb.draw(rocket.getTexture(),
                 rocket.getPosition().x, rocket.getPosition().y,
                 rocket.getBounds().width/2, rocket.getBounds().height/2,
                 rocket.getBounds().width, rocket.getBounds().height,
-                1, 1, rocket_rotation,
+                1, 1, rocket.rotate,
                 0, 0, (int)rocket.getBounds().width, (int)rocket.getBounds().height, false, false);
 
         assetManager.get("smallFont.ttf", BitmapFont.class).draw(sb, String.valueOf(score), SpaceAdventure.WIDTH - 80, 50);  //score
